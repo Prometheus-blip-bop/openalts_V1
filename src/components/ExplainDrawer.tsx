@@ -48,7 +48,7 @@ export default function ExplainDrawer({ isOpen, onClose, repo }: ExplainDrawerPr
       
       const fetchInitialExplanation = async () => {
         try {
-          const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/ai/explain", {
+          const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/ai/explain`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -110,7 +110,7 @@ I was unable to load live searches, but here is a structural architecture overvi
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/ai/explain", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/ai/explain`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

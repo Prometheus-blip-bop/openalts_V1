@@ -510,7 +510,7 @@ export default function CompareTool({ repoAObj, repoBObj, onClear, setView, onLo
     await logUserInteraction("ai_compare_market_repos", { repoA: slugA, repoB: slugB });
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/ai/compare", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/ai/compare`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bodyPayload),
@@ -576,7 +576,7 @@ export default function CompareTool({ repoAObj, repoBObj, onClear, setView, onLo
     setIsChatLoading(true);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/ai/compare/chat", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/ai/compare/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

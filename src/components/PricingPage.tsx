@@ -168,7 +168,7 @@ export default function PricingPage({ onLogin, addToast }: PricingPageProps) {
       addToast?.(`Initiating checkout of ${finalCurrency} ${finalPrice}...`, "info");
 
       // 2. Call backend to create order (convert amount to paise/cents)
-      const orderRes = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/create-order", {
+      const orderRes = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/create-order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -211,7 +211,7 @@ export default function PricingPage({ onLogin, addToast }: PricingPageProps) {
         handler: async function (response: any) {
           setLoadingTier(plan.id);
           try {
-            const verifyRes = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/verify-payment", {
+            const verifyRes = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/verify-payment`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json"
