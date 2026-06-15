@@ -262,10 +262,41 @@ app.post("/api/create-order", async (req: Request, res: Response) => {
     console.error("Razorpay order creation top-level failure:", error);
     const extractDetails = error.error || error.message || error;
     res.status(500).json({ error: "Failed to create order with Razorpay", details: extractDetails });
-  }
-});
+    }
+  });
 
-// Payment Verification Endpoint
+  // Paddle Verification Endpoint
+  app.post("/api/verify-paddle", async (req: Request, res: Response) => {
+    try {
+      const { transaction_id } = req.body;
+      if (!transaction_id) return res.status(400).json({ error: "No transaction id provided" });
+
+      const paddleApiKey = process.env.PADDLE_API_KEY;
+      if (!paddleApiKey) return res.status(500).json({ error: "Server missing Paddle API Key" });
+
+      const fetchRes = await fetch(`https://api.paddle.com/transactions/${transaction_id}`, {
+        headers: {
+          Authorization: `Bearer ${paddleApiKey}`
+        }
+      });
+
+      const data = await fetchRes.json();
+      if (!fetchRes.ok) {
+        return res.status(400).json({ error: "Paddle API error", details: data });
+      }
+
+      const tx = data.data;
+      if (tx.status === "completed" || tx.status === "billed") {
+         return res.json({ success: true, customData: tx.custom_data });
+      } else {
+         return res.status(400).json({ error: `Transaction not completed. Status: ${tx.status}` });
+      }
+    } catch(e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  });
+
+  // Verify Signature Endpoint (Razorpay)
 app.post("/api/verify-payment", async (req: Request, res: Response) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
