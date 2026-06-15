@@ -49,12 +49,12 @@ export default function PricingPage({ onLogin, addToast }: PricingPageProps) {
   React.useEffect(() => {
     initializePaddle({
       environment: 'production',
-      token: (import.meta as any).env?.VITE_PADDLE_CLIENT_TOKEN || "live_a1b959d2e77cf62ce6d2e901898",
+      token: import.meta.env.VITE_PADDLE_CLIENT_TOKEN || "live_a1b959d2e77cf62ce6d2e901898",
       eventCallback: async (event) => {
         if (event.name === "checkout.completed") {
           const transactionId = (event.data as any).transaction_id;
           try {
-            const verifyRes = await fetch(`${(import.meta as any).env.VITE_API_URL || ""}/api/verify-paddle`, {
+            const verifyRes = await fetch(`${import.meta.env.VITE_API_URL || ""}/api/verify-paddle`, {
                method: 'POST',
                headers: { "Content-Type": "application/json" },
                body: JSON.stringify({ transaction_id: transactionId })
@@ -187,11 +187,11 @@ export default function PricingPage({ onLogin, addToast }: PricingPageProps) {
     if (!isUpi) {
       let priceId = "";
       if (plan.id === "pro") {
-        priceId = isAnnual ? ((import.meta as any).env?.VITE_PADDLE_PRICE_PRO_ANNUAL || "pri_annual_pro_placeholder") 
-                           : ((import.meta as any).env?.VITE_PADDLE_PRICE_PRO_MONTHLY || "pri_monthly_pro_placeholder");
+        priceId = isAnnual ? (import.meta.env.VITE_PADDLE_PRICE_PRO_ANNUAL || "pri_annual_pro_placeholder") 
+                           : (import.meta.env.VITE_PADDLE_PRICE_PRO_MONTHLY || "pri_monthly_pro_placeholder");
       } else if (plan.id === "enterprise") {
-        priceId = isAnnual ? ((import.meta as any).env?.VITE_PADDLE_PRICE_ENTERPRISE_ANNUAL || "pri_annual_ent_placeholder") 
-                           : ((import.meta as any).env?.VITE_PADDLE_PRICE_ENTERPRISE_MONTHLY || "pri_monthly_ent_placeholder");
+        priceId = isAnnual ? (import.meta.env.VITE_PADDLE_PRICE_ENTERPRISE_ANNUAL || "pri_annual_ent_placeholder") 
+                           : (import.meta.env.VITE_PADDLE_PRICE_ENTERPRISE_MONTHLY || "pri_monthly_ent_placeholder");
       }
 
       if (!paddleInstance) {
@@ -544,7 +544,7 @@ export default function PricingPage({ onLogin, addToast }: PricingPageProps) {
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs font-black text-black uppercase tracking-tight flex items-center gap-1.5">
-                    🚀 Active UPI / GPay / PhonePe
+                    🚀 Razorpay (UPI / GPay)
                   </p>
                   <p className="text-[11px] text-stone-600 font-medium leading-relaxed">
                     Instantly checkout using any standard Indian UPI application (GPay, PhonePe, Paytm) or scanned QR.
@@ -567,7 +567,7 @@ export default function PricingPage({ onLogin, addToast }: PricingPageProps) {
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs font-black text-black uppercase tracking-tight">
-                    💳 Pay via Card / Global Checkout
+                    💳 Paddle (International Cards)
                   </p>
                   <p className="text-[11px] text-stone-600 font-medium leading-relaxed">
                     Check out using standard international cards (Visa, Mastercard, AMEX) or other available wallets.
